@@ -1,0 +1,15 @@
+# 가상환경
+venv/
+env/
+.venv/
+
+# 환경변수 (API 키 등 보안 파일)
+.env
+
+# 파이썬 캐시 파일
+__pycache__/
+*.pyc
+
+# DB 파일 (필요에 따라)
+db/
+*.sqlite3
