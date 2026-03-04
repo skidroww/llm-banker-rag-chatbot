@@ -33,7 +33,7 @@ def build_vector_db():
     print("Vector DB 구축이 완료되었습니다.")
     return vectorstore
 
-if __name__ == "__main__":
-    build_vector_db()
+#if __name__ == "__main__":
+#    build_vector_db()
 
 

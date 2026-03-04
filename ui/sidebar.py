@@ -1,63 +1,46 @@
 import streamlit as st
 
 def render_sidebar():
-    st.markdown("""
-        <style>
-            /* 상단 버튼 영역 스타일 */
-            div.stButton > button {
-                width: 100%;
-                border-radius: 10px;
-                border: 1px solid #f0f2f6;
-                font-weight: bold;
-                transition: all 0.3s ease;
-                height: 3em; /* 버튼 높이 고정 */
-            }
-            
-            /* 버튼 호버 효과 */
-            div.stButton > button:hover {
-                background-color: #e6f3ff;
-                border-color: #4ECDC4;
-                color: #4ECDC4;
-                transform: translateY(-2px); /* 살짝 위로 떠오르는 효과 */
-            }
-            
-            /* 메인 컨텐츠 영역 상단 여백 조정 (메뉴바와 간격) */
-            .block-container {
-                padding-top: 5rem !important;
-                padding-bottom: 2rem !important;
-            }
-                
-            /* (선택사항) Streamlit 기본 햄버거 메뉴와 헤더 간소화가 필요하면 아래 주석 해제 */
-            /* header {visibility: hidden;} */
-        </style>
-    """, unsafe_allow_html=True)
-    
-    pages = {
-        "1": "menu_dashboard",
-        "2": "menu_prediction",
-        "3": "menu_simulation",
-        "4": "menu_optimization",
-        "5": "menu_infra" 
-    }
-    # -----상단: 사용자 정보 및 로그아웃-----
     with st.sidebar:
-        st.write(f"👤 **{st.session_state.get('username', 'User')}**님 접속 중")
-        if st.button("로그아웃", type="primary"):
-            st.session_state['is_logged_in'] = False
-            st.session_state['username'] = None
-            if 'employee_data' in st.session_state:
-                del st.session_state['employee_data']
-            st.rerun()
-        st.divider() #구분선
+        st.title("🏦 FinRAG Advisor")
+        st.markdown(f"👤 **{st.session_state.get('username', 'PB')}**님, 환영합니다.")
         
-    # -----메인 상단 메뉴바-----
-    #메뉴바 렌더링 
-    cols = st.columns(len(pages))
+        st.divider()
+        
+        st.subheader("🎯 가상 고객 프로필 설정")
+        st.caption("LLM이 아래 정보를 바탕으로 맞춤형 상품을 추천합니다.")
 
-    # 각 컬럼에 버튼 배치
-    for i, (page_name, key) in enumerate(pages.items()):
-        with cols[i]:
-            btn_type = "primary" if st.session_state.current_page == page_name else "secondary"
-            if st.button(page_name, key=key, type=btn_type, use_container_width=True):
-                st.session_state.current_page = page_name
-                st.rerun()  
+        # 💡 알아서 추가한 부분: 포폴 시연용 퀵 프리셋 (페르소나)
+        preset = st.selectbox(
+            "👥 빠른 프로필 프리셋 (시연용)",
+            ["직접 입력", "사회초년생 (안정추구형)", "30대 직장인 (수익추구형)", "은퇴 준비자 (원금보장형)"]
+        )
+
+        # 프리셋에 따른 기본값 세팅 로직
+        default_age = 30
+        default_income = 300
+        default_funds = 1000
+        default_risk = "중도형"
+
+        if preset == "사회초년생 (안정추구형)":
+            default_age, default_income, default_funds, default_risk = 26, 250, 500, "안정형"
+        elif preset == "30대 직장인 (수익추구형)":
+            default_age, default_income, default_funds, default_risk = 34, 400, 3000, "공격형"
+        elif preset == "은퇴 준비자 (원금보장형)":
+            default_age, default_income, default_funds, default_risk = 58, 500, 15000, "안정형"
+
+        # 프로필 입력 폼
+        st.session_state['cust_age'] = st.number_input("나이", min_value=20, max_value=100, value=default_age)
+        st.session_state['cust_income'] = st.slider("월 소득 (만원)", 100, 2000, default_income, step=50)
+        st.session_state['cust_funds'] = st.slider("여유/투자 가능 자금 (만원)", 100, 50000, default_funds, step=100)
+        st.session_state['cust_risk'] = st.select_slider(
+            "투자 성향", 
+            options=["안정형", "중도형", "공격형"], 
+            value=default_risk
+        )
+        
+        st.divider()
+        
+        if st.button("로그아웃", type="secondary", use_container_width=True):
+            st.session_state['is_logged_in'] = False
+            st.rerun()
