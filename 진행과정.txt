@@ -1,0 +1,1 @@
+1. pdf -> embedding -> save the vector DB (Chroma)
