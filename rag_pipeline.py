@@ -2,8 +2,12 @@ import os
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+#from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
+
+from langchain_huggingface import HuggingFaceEmbeddings
+
+
 
 load_dotenv()   
 
@@ -22,13 +26,14 @@ def build_vector_db():
     print(f"총 {len(chunks)}개의 chunk로 분할되었습니다.")
 
     print("3. Vector DB(Chroma)에 저장합니다")
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+    #embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-    vectorstore = Chroma.from_documents(chunks, embeddings, collection_directory="db")
+    vectorstore = Chroma.from_documents(chunks, embeddings, persist_directory="db")
     print("Vector DB 구축이 완료되었습니다.")
     return vectorstore
 
 if __name__ == "__main__":
     build_vector_db()
 
-    
+
