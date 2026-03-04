@@ -1,1 +1,25 @@
 1. pdf -> embedding -> save the vector DB (Chroma)
+
+
+
+1. Retriever (검색기) 로직 함수화 및 최적화
+
+check_db.py에서 테스트하신 similarity_search 기능을 실제 챗봇 앱에서 즉시 호출할 수 있도록 별도의 모듈(예: core/retriever.py)로 분리해야 합니다.
+
+사용자의 질문이 들어왔을 때 가장 적합한 상품 약관 조각(Chunk) Top-K개를 매끄럽게 반환하도록 구성해 보세요.
+
+2. 가상 고객 프로필 연동 및 프롬프트 엔지니어링 (Phase 3)
+
+포트폴리오의 핵심 차별화 포인트인 '고객 프로필(소득, 성향) 반영'을 구현할 차례입니다.
+
+Vector DB에서 찾은 **금융 상품 정보(Context)**와 **가상 고객 프로필(Profile)**을 결합하여, LLM이 전문 프라이빗 뱅커(PB)처럼 논리적으로 상품을 추천하도록 프롬프트를 설계해야 합니다.
+
+금융 도메인이므로 환각(Hallucination) 현상을 최소화하기 위해 LLM의 Temperature를 0.1~0.3 수준으로 낮게 설정하는 것이 좋습니다.
+
+3. Streamlit UI 전면 개편 (Phase 4)
+
+현재 ui/ 폴더 내의 파일들(login_page.py, dashboard.py 등)과 core/predictor.py를 보면 이전 프로젝트로 추정되는 'HR Analytics SaaS (퇴사율 예측)'의 템플릿 코드가 그대로 남아있는 것으로 보입니다.
+
+이를 금융 추천 챗봇 목적에 맞게 완전히 개편하고, Streamlit의 st.chat_message와 st.chat_input을 활용해 카카오톡 같은 대화형 UI를 구축해야 합니다.
+
+README.md에 기획하신 대로 사이드바에는 가상 고객의 속성(나이, 투자 성향, 여유 자금 등)을 조절할 수 있는 기능을 배치하면, 시연 영상에서 훨씬 전문적으로 보일 것입니다.

@@ -12,9 +12,11 @@ class App:
     def __init__(self):
 
         st.set_page_config(
-            page_title="llm-banker-rag-chatbot",
+            page_title="FinRAG Advisor",
+            page_icon="🏦",
             layout="wide",
-            initial_sidebar_state="collapsed"
+            #initial_sidebar_state="collapsed"
+            initial_sidebar_state="expanded"
         )
         # DB
         try:
