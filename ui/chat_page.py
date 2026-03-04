@@ -5,10 +5,11 @@ def render_chat_page():
     st.header("💬 하나은행 맞춤형 금융상품 추천 챗봇")
     st.caption("고객의 프로필과 하나은행 상품 약관(Vector DB)을 기반으로 최적의 상품을 추천합니다.")
 
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+    #if "messages" not in st.session_state:
+    #    st.session_state.messages = []
 
     if "message" not in st.session_state:
+        st.session_state.messages = []
         st.session_state["message"] = [
             {"role": "assistant", "content": "안녕하세요! 하나은행 프라이빗 뱅커(PB) AI입니다. 좌측에 설정된 고객 프로필을 바탕으로 어떤 금융 상품을 알아보고 싶으신가요?"}
         ]
