@@ -31,5 +31,7 @@ class AttritionPredictor:
         prob = self.model.predict_proba(final_features)[0][1]
 
         return prob
+    
+
              
 

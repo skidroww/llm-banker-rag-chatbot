@@ -12,7 +12,7 @@ class App:
     def __init__(self):
 
         st.set_page_config(
-            page_title="SK25 2번째 프로젝트!!",
+            page_title="llm-banker-rag-chatbot",
             layout="wide",
             initial_sidebar_state="collapsed"
         )
@@ -28,7 +28,7 @@ class App:
         if 'is_logged_in' not in st.session_state:
             st.session_state['is_logged_in'] = False
         if 'current_page' not in st.session_state:
-            st.session_state.current_page = "피트니스 데이터 분석"
+            st.session_state.current_page = "1"
 
         
 
@@ -39,14 +39,14 @@ class App:
             render_sidebar()
             # 페이지 라우팅
             page = st.session_state.current_page
-            if page == "피트니스 데이터 분석":
+            if page == "1":
                 render_infra_page(self.conn)
-            elif page == "Dashboard":
+            elif page == "2":
                 render_dashboard()
-            elif page == "Prediction":
+            elif page == "3":
                 render_prediction_page()
-            elif page == "Simulation":
+            elif page == "4":
                 render_simulation_page()
-            elif page == "Optimization":
+            elif page == "5":
                 render_optimization_page()
 
