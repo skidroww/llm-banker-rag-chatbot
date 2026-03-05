@@ -1,4 +1,4 @@
-1. pdf -> embedding -> save the vector DB (Chroma)
+1. pdf -> -> 전처리 -> embedding -> save the vector DB (Chroma)
 
 
 

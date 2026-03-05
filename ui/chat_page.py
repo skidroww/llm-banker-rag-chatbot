@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+from core.llm_engine import generate_mock_response
 
 def render_chat_page():
     st.header("💬 하나은행 맞춤형 금융상품 추천 챗봇")
@@ -29,17 +30,27 @@ def render_chat_page():
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             
-            # TODO: Phase 3에서 아래 부분을 실제 RAG 검색(retriever) + LLM 생성 코드로 교체합니다.
-            # 지금은 UI 테스트를 위해 가짜 응답(Loading)을 보여줍니다.
             with st.spinner("상품 약관을 검색하고 고객 프로필을 분석 중입니다..."):
-                time.sleep(1.5) # 가짜 딜레이
+                time.sleep(1.0) # 가짜 딜레이
+
+
+                user_profile = {
+                    'cust_age': st.session_state.get('cust_age', 30),
+                    'cust_income': st.session_state.get('cust_income', 300),
+                    'cust_funds': st.session_state.get('cust_funds', 1000),
+                    'cust_risk': st.session_state.get('cust_risk', '중도형')
+                }
+
+                final_response = generate_mock_response(prompt, user_profile)
                 
-                # 테스트용 임시 답변 (고객 프로필 데이터가 잘 연동되는지 확인용)
-                profile_summary = f"({st.session_state['cust_age']}세, 월소득 {st.session_state['cust_income']}만원, {st.session_state['cust_risk']} 성향)"
-                mock_response = f"고객님의 {profile_summary}을 반영하여 검색한 결과입니다.\n\n안전하게 목돈을 굴리시려면 **'고단위 플러스(금리확정형)'** 상품을 추천합니다. Vector DB 검색 결과, 이 상품은...\n\n(※ 이 부분은 추후 LLM 실제 응답으로 대체됩니다.)"
+                displayed_text = ""
+                for chunk in final_response.split('\n'):
+                    displayed_text += chunk + "\n"
+                    message_placeholder.markdown(displayed_text + "▌")
+                    time.sleep(0.05)
                 
-                message_placeholder.markdown(mock_response)
+                message_placeholder.markdown(displayed_text)
                 
         # 3. AI 답변을 세션에 저장
-        st.session_state.messages.append({"role": "assistant", "content": mock_response})
+        st.session_state.messages.append({"role": "assistant", "content": final_response})
 
