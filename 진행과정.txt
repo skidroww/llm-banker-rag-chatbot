@@ -1,4 +1,7 @@
-1. pdf -> -> 전처리 -> embedding -> save the vector DB (Chroma)
+1. pdf -> 
+PDF 데이터 파싱 후 정규식(Regex)을 활용한 노이즈 클렌징 수행 -> 
+embedding -> 
+save the vector DB (Chroma)
 
 
 

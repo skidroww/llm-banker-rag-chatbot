@@ -1,6 +1,6 @@
 import streamlit as st
 import time
-from core.llm_engine import generate_mock_response
+from core.llm_engine import generate_response
 
 def render_chat_page():
     st.header("💬 하나은행 맞춤형 금융상품 추천 챗봇")
@@ -41,7 +41,7 @@ def render_chat_page():
                     'cust_risk': st.session_state.get('cust_risk', '중도형')
                 }
 
-                final_response = generate_mock_response(prompt, user_profile)
+                final_response = generate_response(prompt, user_profile)
                 
                 displayed_text = ""
                 for chunk in final_response.split('\n'):
