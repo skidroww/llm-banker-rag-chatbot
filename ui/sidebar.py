@@ -7,7 +7,7 @@ def render_sidebar():
         
         st.divider()
         
-        st.subheader("🎯 가상 고객 프로필 설정")
+        st.subheader("🎯 고객 프로필 설정")
         st.caption("LLM이 아래 정보를 바탕으로 맞춤형 상품을 추천합니다.")
 
         preset = st.selectbox(

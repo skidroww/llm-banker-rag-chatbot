@@ -44,7 +44,7 @@ def generate_response(user_query: str, user_profile: dict, chat_history: list) -
     print(f"\n [Query Rewriting] 원래 질문: '{user_query}'")
     print(f" [Query Rewriting] 검색용 질문: '{standalone_query}'\n")
 
-    retrieved_context = search_financial_products(standalone_query, k =3)
+    retrieved_context = search_financial_products(standalone_query, k =10)
 
     age = user_profile['cust_age']
     income = user_profile['cust_income']

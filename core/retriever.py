@@ -25,7 +25,7 @@ def get_retriever():
         return None
 
 
-def search_financial_products(query: str, k: int = 4) -> str:
+def search_financial_products(query: str, k: int = 10) -> str:
     vector_db = get_retriever()
     if vector_db is None:
         return "시스템 오류: 금융 상품 데이터베이스(Vector DB)를 불러올 수 없습니다."

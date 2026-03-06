@@ -1,6 +1,4 @@
 import streamlit as st
-from utils.db import get_db
-from ui.login_page import render_login_page
 from ui.sidebar import render_sidebar
 from ui.chat_page import render_chat_page
 
@@ -16,7 +14,7 @@ class App:
         )
        
  
-    
+
     def run(self):
             render_sidebar()
             render_chat_page()
