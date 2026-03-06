@@ -16,7 +16,7 @@ class App:
         )
        
  
-
+    
     def run(self):
             render_sidebar()
             render_chat_page()

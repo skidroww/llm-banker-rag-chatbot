@@ -3,7 +3,7 @@ import streamlit as st
 def render_sidebar():
     with st.sidebar:
         st.title("🏦 FinRAG Advisor")
-        st.markdown(f"👤 **{st.session_state.get('username', 'PB')}**님, 환영합니다.")
+        st.markdown("👤 **고객 맞춤형 PB 챗봇**")
         
         st.divider()
         
@@ -15,7 +15,7 @@ def render_sidebar():
             ["직접 입력", "사회초년생 (안정추구형)", "30대 직장인 (수익추구형)", "은퇴 준비자 (원금보장형)"]
         )
 
-        # 프리셋에 따른 기본값 세팅 로직
+        #  기본값 세팅 
         default_age = 30
         default_income = 300
         default_funds = 1000
@@ -40,6 +40,4 @@ def render_sidebar():
         
         st.divider()
         
-        if st.button("로그아웃", type="secondary", use_container_width=True):
-            st.session_state['is_logged_in'] = False
-            st.rerun()
+        
