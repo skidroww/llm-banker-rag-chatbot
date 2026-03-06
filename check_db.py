@@ -25,11 +25,11 @@ def check_my_db():
     test_query2 = "행복knowhow 연금예금의 최저가입 금액 어떻게 됨?"
     test_query3 = "안전한 상품 추천해 줘"
     test_query4 = "금리 높은 예금 상품 몇개 추천좀 해봐"
-    print(f"테스트 질문: '{test_query4}'")
+    print(f"테스트 질문: '{test_query2}'")
     print("결과를 찾는 중...\n")
     
     # DB에서 질문과 가장 관련성 높은 2개의 조각을 가져옵니다.
-    docs = vector_db.similarity_search(test_query4, k=10)
+    docs = vector_db.similarity_search(test_query2, k=10)
 
     for i, doc in enumerate(docs):
         print(f"--- [검색 결과 {i+1}] ---")

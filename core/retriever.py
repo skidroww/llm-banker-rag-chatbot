@@ -25,12 +25,27 @@ def get_retriever():
         return None
 
 
-def search_financial_products(query: str, k: int = 10) -> str:
+def search_financial_products(query: str, target_product:str, k: int = 10) -> str:
     vector_db = get_retriever()
+
     if vector_db is None:
         return "시스템 오류: 금융 상품 데이터베이스(Vector DB)를 불러올 수 없습니다."
     
     docs = vector_db.similarity_search(query, k=k)
+
+    if target_product:
+        target_clean = target_product.replace(" ", "")
+        filtered_docs = []
+        
+        for doc in docs:
+            source_file = doc.metadata.get('source', '')
+            if target_clean in source_file.replace(" ", ""):
+                filtered_docs.append(doc)
+        
+        if filtered_docs:
+            docs = filtered_docs
+
+    docs = docs[:k]
 
     if not docs:
         return "죄송합니다. 고객님의 질문과 관련된 금융 상품을 찾을 수 없습니다. 다른 질문을 해보시겠어요?"
@@ -39,7 +54,6 @@ def search_financial_products(query: str, k: int = 10) -> str:
     for i, doc in enumerate(docs):
         source_path = doc.metadata.get("source", "알 수 없는 출처")
         page = doc.metadata.get("page", "알 수 없는 페이지")
-
         file_name = os.path.basename(source_path)
 
         chunk_text = f"[{i+1}번 정보 출처: {file_name}(페이지:{page})]\n{doc.page_content}"
