@@ -29,7 +29,7 @@ def render_chat_page():
         # 2. AI 답변 생성 (이 부분은 추후 core/llm_engine.py 연동 시 수정될 부분입니다)
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
-                
+
             with st.spinner("상품 약관을 검색하고 고객 프로필을 분석 중입니다..."):
                 time.sleep(1.0) # 가짜 딜레이
 
@@ -41,7 +41,7 @@ def render_chat_page():
                     'cust_risk': st.session_state.get('cust_risk', '중도형')
                 }
 
-                final_response = generate_response(prompt, user_profile)
+                final_response = generate_response(prompt, user_profile, st.session_state.messages)
                 
                 displayed_text = ""
                 for chunk in final_response.split('\n'):
