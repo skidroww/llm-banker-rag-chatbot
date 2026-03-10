@@ -1,0 +1,5 @@
+1위: CatBoost (ROC-AUC 0.7124)
+
+2위: LightGBM (ROC-AUC 0.7043)
+
+3위: XGBoost (ROC-AUC 0.6877)
