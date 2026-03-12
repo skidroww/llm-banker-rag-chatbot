@@ -107,31 +107,22 @@ def generate_response(user_query: str, user_profile: dict, chat_history: list) -
 
     print(f"\n [추출 결과] 검색용 질문: '{standalone_query}'")
     print(f" [추출 결과] 타겟 상품명: '{target_product}'\n")
-
     print(f"\n [Query Rewriting] 원래 질문: '{user_query}'")
     print(f" [Query Rewriting] 검색용 질문: '{standalone_query}'\n")
 
-    #retrieved_context = search_financial_products(standalone_query, k =10)
+    #retrieved_context = search_financial_products(standalone_query, k = 10)
     retrieved_context = search_financial_products(standalone_query, target_product=target_product, k=10)
-
-    age = user_profile['cust_age']
-    income = user_profile['cust_income']
-    funds = user_profile['cust_funds']
-    risk = user_profile['cust_risk']
+    profile_str = "\n".join([f"- {k}: {v}" for k, v in user_profile.items()])
 
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", PB_SYSTEM_PROMPT),
-        ("human", "{question}")
+        ("system", f"{PB_SYSTEM_PROMPT}\n\n[현재 고객 AI 진단 프로필]\n{profile_str}"),
+        ("human", "고객 질문: {question}\n\n[RAG 검색 약관 정보]\n{context}\n\n위 프로필과 약관을 바탕으로 답변해주세요.")
     ])
 
     chain = prompt_template | llm
 
     try:
         response = chain.invoke({
-            "age": age,
-            "income": income,
-            "funds": funds,
-            "risk": risk,
             "context": retrieved_context,
             "question": standalone_query
         })
