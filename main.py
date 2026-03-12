@@ -12,4 +12,3 @@ if __name__ == "__main__":
 
 
 
-    #GOOGLE_API_KEY=AIzaSyAz4POMxWAcHbdcLOpQFs_-9KgG7NrFUqY
