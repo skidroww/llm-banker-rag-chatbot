@@ -136,7 +136,7 @@ def render_chat_page():
                     
                 # 3. AI 답변을 세션에 저장
                 st.session_state.messages.append({"role": "assistant", "content": final_response})
-                #st.rerun()
+                
 
                
 
