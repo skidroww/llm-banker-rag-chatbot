@@ -120,6 +120,12 @@ def render_chat_page():
 
                         final_response = generate_response(prompt, user_profile, st.session_state.messages)
 
+                        if isinstance(final_response, list):
+                            if len(final_response) > 0 and isinstance(final_response[0], dict) and 'test' in final_response[0]:
+                                final_response = final_response[0]['text']
+                            else:
+                                final_response = " ".join(map(str, final_response))
+                            
                         displayed_text = ""
                         for chunk in final_response.split('\n'):
                             displayed_text += chunk + "\n"
