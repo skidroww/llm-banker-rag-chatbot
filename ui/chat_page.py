@@ -67,7 +67,7 @@ def render_chat_page():
 
     # [왼쪽 화면] AI 고객 진단 리포트 (ML 결과 시각화)
     with col1:
-        st.subheader("📊 AI 고객 성향 진단")
+        st.subheader("AI 고객 성향 진단")
         st.markdown(f"**조회된 고객:** `{user_profile['연령']}세` | `{user_profile['직업']}` | `{user_profile['결혼상태']}`")
         
         #  Plotly 게이지 차트 렌더링
@@ -98,6 +98,10 @@ def render_chat_page():
                 {"role": "assistant", "content": "안녕하세요! 하나은행 프라이빗 뱅커(PB) AI입니다. 좌측에 설정된 고객 프로필을 바탕으로 어떤 금융 상품을 알아보고 싶으신가요?"}
             ]
 
+        prompt = st.chat_input("예: 고객 성향에 맞는 상품 추천해주고 약관의 금리 알려줘")
+        if prompt:
+            st.session_state.messages.append({"role": "user", "content": prompt})
+
         chat_container = st.container(height=500)
 
         with chat_container:
@@ -105,34 +109,28 @@ def render_chat_page():
                 with st.chat_message(message["role"]):
                     st.markdown(message["content"])
 
-    
-        if prompt := st.chat_input("예:여유 자금이 있는데 금리 높은 예금 추천해줘"):
-            # 1. 사용자 질문을 화면에 표시 및 저장
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            with st.chat_message("user"):
-                st.markdown(prompt)
+            if prompt:
+                with st.chat_message("assistant"):
+                    message_placeholder = st.empty()
+                    with st.spinner("상품 약관을 검색하고 고객 프로필을 분석 중입니다..."):
+                        time.sleep(0.1) 
 
-        
-            with st.chat_message("assistant"):
-                message_placeholder = st.empty()
-                with st.spinner("상품 약관을 검색하고 고객 프로필을 분석 중입니다..."):
-                    time.sleep(0.1) 
+                        message_placeholder.markdown(f"*(📊 ML AI 진단: 고객님의 여유자금 예치 성향은 **{deposit_prob:.1f}%** 입니다. 이를 반영하여 답변을 작성합니다...)*")
+                        time.sleep(0.1)
 
-                    message_placeholder.markdown(f"*(📊 ML AI 진단: 고객님의 여유자금 예치 성향은 **{deposit_prob:.1f}%** 입니다. 이를 반영하여 답변을 작성합니다...)*")
-                    time.sleep(0.1)
+                        final_response = generate_response(prompt, user_profile, st.session_state.messages)
 
-                    final_response = generate_response(prompt, user_profile, st.session_state.messages)
-
-                    displayed_text = ""
-                    for chunk in final_response.split('\n'):
-                        displayed_text += chunk + "\n"
-                        message_placeholder.markdown(displayed_text + "▌")
-                        time.sleep(0.05)
+                        displayed_text = ""
+                        for chunk in final_response.split('\n'):
+                            displayed_text += chunk + "\n"
+                            message_placeholder.markdown(displayed_text + "▌")
+                            time.sleep(0.05)
+                        
+                        message_placeholder.markdown(displayed_text)
                     
-                    message_placeholder.markdown(displayed_text)
-                    
-            # 3. AI 답변을 세션에 저장
-            st.session_state.messages.append({"role": "assistant", "content": final_response})
+                # 3. AI 답변을 세션에 저장
+                st.session_state.messages.append({"role": "assistant", "content": final_response})
+                #st.rerun()
 
                
 
