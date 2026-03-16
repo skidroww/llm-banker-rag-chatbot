@@ -6,22 +6,22 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 @st.cache_resource
 def get_retriever():
-    print("⏳ Vector DB 및 임베딩 모델 로드 중...")
+    print("Vector DB 및 임베딩 모델 로드 중...")
     try:
         embeddings = HuggingFaceEmbeddings(model_name="jhgan/ko-sroberta-multitask")
         BASSE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         db_path = os.path.join(BASSE_DIR, "db")
 
         if not os.path.exists(db_path):
-            print("❌ Vector DB 경로를 찾을 수 없습니다!")
+            print("Vector DB 경로를 찾을 수 없습니다!")
             return None
         
         vector_db = Chroma(persist_directory=db_path,embedding_function=embeddings)
-        print("✅ Vector DB 로드 완료!")
+        print("Vector DB 로드 완료!")
         return vector_db
     
     except Exception as e:
-        print(f"❌ Vector DB 로드 중 오류 발생: {e}")
+        print(f"Vector DB 로드 중 오류 발생: {e}")
         return None
 
 
