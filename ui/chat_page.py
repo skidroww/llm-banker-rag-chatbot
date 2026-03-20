@@ -4,6 +4,7 @@ import pandas as pd
 from catboost import CatBoostClassifier
 from core.llm_engine import generate_response
 import plotly.graph_objects as go
+from utils.logger import save_chat_log
 
 @st.cache_resource
 def load_ml_model():
@@ -136,6 +137,18 @@ def render_chat_page():
                     
                 # 3. AI 답변을 세션에 저장
                 st.session_state.messages.append({"role": "assistant", "content": final_response})
+
+                # 4. 세션 ID 가져오기
+
+                try:
+                    save_chat_log(
+                        session_id=st.session_state.session_id,
+                        profile_data=user_profile,  
+                        user_message=prompt,        
+                        bot_response=final_response
+                    )
+                except Exception as e:
+                    st.error(f"로그 저장 중 오류가 발생했습니다:{e}")
                 
 
                
