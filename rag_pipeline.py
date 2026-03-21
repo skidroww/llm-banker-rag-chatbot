@@ -63,7 +63,6 @@ def build_vector_db():
 
     print("3. Vector DB(Chroma)에 저장합니다")
     #embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-
     embeddings = HuggingFaceEmbeddings(model_name="jhgan/ko-sroberta-multitask")
 
     vectorstore = Chroma.from_documents(chunks, embeddings, persist_directory="db")

@@ -24,7 +24,6 @@ def get_retriever():
         print(f"Vector DB 로드 중 오류 발생: {e}")
         return None
 
-
 def search_financial_products(query: str, target_product:str, k: int = 10) -> str:
     vector_db = get_retriever()
 

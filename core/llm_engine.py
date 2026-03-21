@@ -91,7 +91,6 @@ def get_query_and_product(user_query: str, chat_history: list, llm) -> tuple:
         print(f"질문/상품명 추출 실패: {e}")
         return user_query, ""
 
-
 def generate_response(user_query: str, user_profile: dict, chat_history: list) -> str:
     #llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.2)
     llm = ChatGoogleGenerativeAI(model="gemini-3-flash-preview", temperature=0.2)
