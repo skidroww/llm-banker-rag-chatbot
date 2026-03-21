@@ -13,3 +13,7 @@ __pycache__/
 # DB 파일 (필요에 따라)
 db/
 *.sqlite3
+
+# Logs
+logs/*
+!logs/sample_log.jsonl
