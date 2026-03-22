@@ -1,0 +1,10 @@
+# llm-banker-rag-chatbot/docker-compose.yml
+version: '3.8'
+
+services:
+  chatbot_server:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./logs:/app/logs   # 내 레포지토리의 logs 폴더를 도커와 연결
