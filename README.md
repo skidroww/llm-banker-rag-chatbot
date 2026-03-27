@@ -177,10 +177,10 @@ streamlit run app.py
                                                                        ‖
                                                                        ‖
 =======================================================================‖===========
-[ 2. RAG Pipeline (Online / Real-time) ] - 실시간 질의응답 및 추천     ‖
+[ 2. RAG Pipeline (Online / Real-time) ] - 실시간 질의응답 및 추천           ‖
 =======================================================================‖===========
                                                                        ‖
-  👤 User Input (채팅창 입력) ──────────────────────────┐              ‖
+  👤 User Input (채팅창 입력) ──────────────────────────┐                 ‖
          │                                              │              ‖
          ▼                                              ▼              ‖
   📊 ML Model (CatBoost)                      🧠 Query Rewriter (LLM)  ‖
@@ -201,7 +201,7 @@ streamlit run app.py
                               (System Instructions + Context + ML Profile Data)
                                             │
                                             ▼
-                              🤖 LLM Engine (Gemini 3.1 Pro)
+                              🤖 LLM Engine (Gemini)
                               (Context-Aware Generation)
                                             │
                                             ▼
