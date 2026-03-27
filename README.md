@@ -149,3 +149,60 @@ python rag_pipeline.py
 
 3. 애플리케이션 실행
 streamlit run app.py
+
+---
+
++---------------------------------------------------------------------------------+
+|                    [ Data Pipeline & RAG Architecture ]                         |
++---------------------------------------------------------------------------------+
+
+===================================================================================
+[ 1. Data Pipeline (Offline / Async) ] - 데이터 수집 및 벡터화
+===================================================================================
+
+  📄 Raw Documents 
+  (하나은행 상품 PDF, CSV)
+         │
+         ▼
+  ✂️ Data Processor 
+  (Document Loader & RecursiveCharacterTextSplitter)
+         │
+         ▼
+  🧠 Embedding Model 
+  (jhgan/ko-sroberta-multitask)
+         │
+         ▼
+  🗄️ Vector Database (Chroma DB)  <====================================+
+  (Stores Document Embeddings & Metadata)                              ‖
+                                                                       ‖
+                                                                       ‖
+=======================================================================‖===========
+[ 2. RAG Pipeline (Online / Real-time) ] - 실시간 질의응답 및 추천     ‖
+=======================================================================‖===========
+                                                                       ‖
+  👤 User Input (채팅창 입력) ──────────────────────────┐              ‖
+         │                                              │              ‖
+         ▼                                              ▼              ‖
+  📊 ML Model (CatBoost)                      🧠 Query Rewriter (LLM)  ‖
+  (고객 예치 성향 및 프로필 예측)             (대명사 해석 및 질문 고도화) 
+         │                                              │              ‖
+         │                                              ▼              ‖
+         │                                    🧠 Embedding Model       ‖
+         │                                    (User Query Vectorized)  ‖
+         │                                              │              ‖
+         │                                              ▼              ‖
+         │                                    🔍 Similarity Search  ===+ 
+         │                                    (Top-K Context Retrieval)
+         │                                              │
+         └──────────────────────+                       │ [Retrieved Contexts]
+                                │                       │
+                                ▼                       ▼
+                              📝 Prompt Builder
+                              (System Instructions + Context + ML Profile Data)
+                                            │
+                                            ▼
+                              🤖 LLM Engine (Gemini 3.1 Pro)
+                              (Context-Aware Generation)
+                                            │
+                                            ▼
+                              💬 Final Response (사용자 맞춤형 답변 제공)
